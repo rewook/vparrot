@@ -25,6 +25,12 @@ h1 {
     margin-top: 20px;
 }
 
+.capitalize-first-letter::first-letter {
+    text-transform: capitalize;
+}
 
+.uppercase-input {
+    text-transform: uppercase;
+}
 
 
