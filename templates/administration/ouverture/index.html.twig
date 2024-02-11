@@ -41,7 +41,7 @@
             {% endif %}
 
             <td>
-                <a href="#"><input type="button" class="btn btn-info" value="MODIFIER"></a>
+                <a href="{{ path('app_admin_modif_ouverture',{id: ouverture.id}) }}"><input type="button" class="btn btn-info" value="MODIFIER"></a>
             </td>
         </tr>
         {% endfor %}
