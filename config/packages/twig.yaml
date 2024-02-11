@@ -1,6 +1,8 @@
 twig:
     file_name_pattern: '*.twig'
-
+    form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+        favicon_path: '/images/favicon.png'
 when@test:
     twig:
         strict_variables: true

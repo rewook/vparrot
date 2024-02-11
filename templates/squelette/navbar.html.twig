@@ -33,8 +33,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contactez nous</a>
                 </li>
+                {% if app.user %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Administration
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Employés</a></li>
+                            <li><a class="dropdown-item" href="#">Horaires</a></li>
+                            <li><a class="dropdown-item" href="#">Occasions</a></li>
+                            <li><a class="dropdown-item" href="#">Commentaires</a></li>
+                            <li><a class="dropdown-item" href="#">Contacts</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
                 <li class="justify-content-end nav-item">
-                    <a class="nav-link" href="#">Se connecter</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}" class="nav-link active">Se déconnecter</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="nav-link ">Se connecter</a>
+                    {% endif %}
+
                 </li>
 
 
@@ -44,6 +63,8 @@
 
         </div>
 
+
     </div>
     <!-- Container wrapper -->
 </nav>
+
