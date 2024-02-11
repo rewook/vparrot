@@ -5,7 +5,7 @@
 {% block body %}
 
 
-<div class="example-wrapper">
+<div class="container mt-5">
     <h1>Gestion des horaires d'ouverture</h1>
 
     <table class="table table-striped">
@@ -16,6 +16,7 @@
             <th>Fin matin</th>
             <th>Début AM</th>
             <th>Fin AM</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +39,10 @@
             {% if ouverture.hfapresmidi is not null %}
             <td>{{ ouverture.hfapresmidi | date('H:i') }}</td>
             {% endif %}
+
+            <td>
+                <a href="#"><input type="button" class="btn btn-info" value="MODIFIER"></a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
