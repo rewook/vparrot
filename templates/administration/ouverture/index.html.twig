@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouvertures{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <h1>Gestion des horaires d'ouverture</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Jour</th>
+            <th>Début matin</th>
+            <th>Fin matin</th>
+            <th>Début AM</th>
+            <th>Fin AM</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ouverture in ouvertures %}
+        <tr>
+            <td>{{ ouverture.jour }}</td>
+
+            {% if ouverture.hdmatin is not null %}
+            <td>{{ ouverture.hdmatin | date('H:i') }}</td>
+            {% endif %}
+
+            {% if ouverture.hfmatin is not null %}
+            <td>{{ ouverture.hfmatin | date('H:i') }}</td>
+            {% endif %}
+
+            {% if ouverture.hdapresmidi is not null %}
+            <td>{{ ouverture.hdapresmidi | date('H:i') }}</td>
+            {% endif %}
+
+            {% if ouverture.hfapresmidi is not null %}
+            <td>{{ ouverture.hfapresmidi | date('H:i') }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
