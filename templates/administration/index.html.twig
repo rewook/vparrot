@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdministrationController!{% endblock %}
+{% block title %}Administration{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Sites/vparrot/src/Controller/AdministrationController.php</code></li>
-        <li>Your template at <code>C:/Sites/vparrot/templates/administration/index.html.twig</code></li>
-    </ul>
+<div class="container">
+    <h1>Liste des personnes à recontacter</h1>
+
+
+
+    {% if contacts %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">Nom</th>
+            <th class="text-center">Prénom</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Téléphone</th>
+            <th class="text-center">Message</th>
+            {% if is_granted('ROLE_USER') %}
+                <th class="text-center">Actions</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+
+            {% for contact in contacts %}
+                <tr>
+                    <td class="text-center">{{ contact.nom | upper }}</td>
+                    <td class="text-center">{{ contact.prenom | capitalize }}</td>
+                    <td class="text-center">{{ contact.email }}</td>
+                    <td class="text-center">{{ contact.telephone }}</td>
+                    <td class="text-center">{{ contact.message }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="text-center">
+                            <a href="{{ path('app_admin_contact_rappele',{id: contact.id}) }}"><input class="btn btn-info" type="button" value="Contacté" onclick="return confirm('Etes-vous sûr de vouloir marquer rappelé ce message ?')"></a>
+                        </td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+    {% else %}
+
+
+        <h4 class="text-center mt-5">Aucun enregistrement</h4>
+
+    {% endif %}
+
+
 </div>
 {% endblock %}
