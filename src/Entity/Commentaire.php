@@ -29,6 +29,12 @@ class Commentaire
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     private ?Utilisateur $utilisateurId = null;
 
+    #[ORM\Column]
+    private ?bool $estHumain = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $creation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class Commentaire
     public function setUtilisateurId(?Utilisateur $utilisateurId): static
     {
         $this->utilisateurId = $utilisateurId;
+
+        return $this;
+    }
+
+    public function isEstHumain(): ?bool
+    {
+        return $this->estHumain;
+    }
+
+    public function setEstHumain(bool $estHumain): static
+    {
+        $this->estHumain = $estHumain;
+
+        return $this;
+    }
+
+    public function getCreation(): ?\DateTimeInterface
+    {
+        return $this->creation;
+    }
+
+    public function setCreation(\DateTimeInterface $creation): static
+    {
+        $this->creation = $creation;
 
         return $this;
     }

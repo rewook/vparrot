@@ -28,7 +28,7 @@
                     <a class="nav-link" href="#">Nos occasions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Vos commentaires</a>
+                    <a class="nav-link" href="{{ path('app_commentaire') }}">Vos commentaires</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_contact') }}">Contactez nous</a>
@@ -43,7 +43,7 @@
                             <li><a class="dropdown-item" href="{{ path('app_admin_employe') }}">Employés</a></li>
                             <li><a class="dropdown-item" href="{{ path('app_admin_ouverture') }}">Horaires</a></li>
                             <li><a class="dropdown-item" href="#">Occasions</a></li>
-                            <li><a class="dropdown-item" href="#">Commentaires</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_admin_commentaire') }}">Commentaires</a></li>
 
                         </ul>
                     </div>

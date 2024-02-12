@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaire Modéré{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <h1>Liste des commentaires modéré</h1>
+
+
+
+        {% if commentaires %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Nom</th>
+                    <th class="text-center">Commentaire</th>
+                    <th class="text-center">Note</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for commentaire in commentaires %}
+                    <tr>
+                        <td class="text-center">{{ commentaire.creation | date('d/m/Y') }}</td>
+                        <td class="text-center">{{ commentaire.nom | upper }}</td>
+                        <td class="text-center">{{ commentaire.commentaire | capitalize }}</td>
+                        <td class="text-center">{{ commentaire.note }} /5</td>
+                    </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        {% else %}
+
+
+            <h4 class="text-center mt-5">Aucun commentaire</h4>
+
+        {% endif %}
+
+        <a href="{{ path('app_commentaire_ajout') }}"><input type="button" class="btn btn-primary" value="Laissez nous un commentaire !"></a>
+    </div>
+
+
+{% endblock %}
