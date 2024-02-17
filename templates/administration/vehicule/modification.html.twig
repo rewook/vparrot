@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification occasion{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="container">
+        <h1>Modification d'occasion</h1>
+
+        {{ form_start(form) }}
+
+        {% if vehicule.image %}
+            <img class="align-content-center" src="{{ asset('./uploads/' ~ vehicule.image) }}" alt="Image du véhicule">
+            <a href="{{ path('app_admin_change_image',{id: vehicule.id}) }}"><input type="button" class="btn btn-info" value="Changer l'image" /></a>
+        {% endif %}
+
+
+        {{ form_row(form.titre) }}
+        {{ form_row(form.prix) }}
+        {{ form_row(form.marque) }}
+        {{ form_row(form.modele) }}
+        {{ form_row(form.annee) }}
+        {{ form_row(form.kilometrage) }}
+        {{ form_row(form.energie) }}
+        {{ form_row(form.boite) }}
+        {{ form_row(form.couleur) }}
+        {{ form_row(form.nbporte) }}
+        {{ form_row(form.nbplace) }}
+        {{ form_row(form.puissance) }}
+        {{ form_row(form.puissanceDin) }}
+        {{ form_row(form.equipement) }}
+
+        {{ form_row(form.submit) }}
+
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}

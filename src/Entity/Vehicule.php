@@ -25,26 +25,189 @@ class Vehicule
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $annee = null;
+    #[ORM\Column(length: 255)]
+    private ?string $marque = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $modele = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $annee = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $kilometrage = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $energie = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $boite = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $couleur = null;
 
     #[ORM\Column]
-    private ?float $kilometrage = null;
+    private ?int $nbporte = null;
+
+    #[ORM\Column]
+    private ?int $nbplace = null;
+
+    #[ORM\Column]
+    private ?int $puissance = null;
+
+    #[ORM\Column]
+    private ?int $puissanceDin = null;
+
+
+
+
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(string $marque): static
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getModele(): ?string
+    {
+        return $this->modele;
+    }
+
+    public function setModele(string $modele): static
+    {
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(string $annee): static
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getKilometrage(): ?string
+    {
+        return $this->kilometrage;
+    }
+
+    public function setKilometrage(string $kilometrage): static
+    {
+        $this->kilometrage = $kilometrage;
+
+        return $this;
+    }
+
+    public function getEnergie(): ?string
+    {
+        return $this->energie;
+    }
+
+    public function setEnergie(string $energie): static
+    {
+        $this->energie = $energie;
+
+        return $this;
+    }
+
+    public function getBoite(): ?string
+    {
+        return $this->boite;
+    }
+
+    public function setBoite(string $boite): static
+    {
+        $this->boite = $boite;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(string $couleur): static
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getNbporte(): ?int
+    {
+        return $this->nbporte;
+    }
+
+    public function setNbporte(int $nbporte): static
+    {
+        $this->nbporte = $nbporte;
+
+        return $this;
+    }
+
+    public function getNbplace(): ?int
+    {
+        return $this->nbplace;
+    }
+
+    public function setNbplace(int $nbplace): static
+    {
+        $this->nbplace = $nbplace;
+
+        return $this;
+    }
+
+    public function getPuissance(): ?int
+    {
+        return $this->puissance;
+    }
+
+    public function setPuissance(int $puissance): static
+    {
+        $this->puissance = $puissance;
+
+        return $this;
+    }
+
+    public function getPuissanceDin(): ?int
+    {
+        return $this->puissanceDin;
+    }
+
+    public function setPuissanceDin(int $puissanceDin): static
+    {
+        $this->puissanceDin = $puissanceDin;
+
+        return $this;
+    }
 
     #[ORM\OneToMany(targetEntity: Gallerie::class, mappedBy: 'vehiculeId')]
     private Collection $galleries;
 
-    #[ORM\ManyToMany(targetEntity: Caracteristique::class, mappedBy: 'vehiculeId')]
-    private Collection $caracteristiques;
 
-    #[ORM\ManyToMany(targetEntity: Equipement::class, mappedBy: 'vehiculeId')]
-    private Collection $equipements;
+
+    #[ORM\ManyToMany(targetEntity: Equipement::class, inversedBy: 'vehicules')]
+    private Collection $equipement;
+
+
 
     public function __construct()
     {
         $this->galleries = new ArrayCollection();
-        $this->caracteristiques = new ArrayCollection();
-        $this->equipements = new ArrayCollection();
+        $this->equipement = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,29 +251,7 @@ class Vehicule
         return $this;
     }
 
-    public function getAnnee(): ?\DateTimeInterface
-    {
-        return $this->annee;
-    }
 
-    public function setAnnee(\DateTimeInterface $annee): static
-    {
-        $this->annee = $annee;
-
-        return $this;
-    }
-
-    public function getKilometrage(): ?float
-    {
-        return $this->kilometrage;
-    }
-
-    public function setKilometrage(float $kilometrage): static
-    {
-        $this->kilometrage = $kilometrage;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Gallerie>
@@ -142,46 +283,20 @@ class Vehicule
         return $this;
     }
 
-    /**
-     * @return Collection<int, Caracteristique>
-     */
-    public function getCaracteristiques(): Collection
-    {
-        return $this->caracteristiques;
-    }
 
-    public function addCaracteristique(Caracteristique $caracteristique): static
-    {
-        if (!$this->caracteristiques->contains($caracteristique)) {
-            $this->caracteristiques->add($caracteristique);
-            $caracteristique->addVehiculeId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCaracteristique(Caracteristique $caracteristique): static
-    {
-        if ($this->caracteristiques->removeElement($caracteristique)) {
-            $caracteristique->removeVehiculeId($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Equipement>
      */
-    public function getEquipements(): Collection
+    public function getEquipement(): Collection
     {
-        return $this->equipements;
+        return $this->equipement;
     }
 
     public function addEquipement(Equipement $equipement): static
     {
-        if (!$this->equipements->contains($equipement)) {
-            $this->equipements->add($equipement);
-            $equipement->addVehiculeId($this);
+        if (!$this->equipement->contains($equipement)) {
+            $this->equipement->add($equipement);
         }
 
         return $this;
@@ -189,10 +304,10 @@ class Vehicule
 
     public function removeEquipement(Equipement $equipement): static
     {
-        if ($this->equipements->removeElement($equipement)) {
-            $equipement->removeVehiculeId($this);
-        }
+        $this->equipement->removeElement($equipement);
 
         return $this;
     }
+
+
 }

@@ -15,18 +15,15 @@ class Equipement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
-    #[ORM\Column]
-    private ?bool $possede = null;
-
-    #[ORM\ManyToMany(targetEntity: Vehicule::class, inversedBy: 'equipements')]
-    private Collection $vehiculeId;
+    #[ORM\ManyToMany(targetEntity: Vehicule::class, mappedBy: 'equipement')]
+    private Collection $vehicules;
 
     public function __construct()
     {
-        $this->vehiculeId = new ArrayCollection();
+        $this->vehicules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,21 +36,9 @@ class Equipement
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function isPossede(): ?bool
-    {
-        return $this->possede;
-    }
-
-    public function setPossede(bool $possede): static
-    {
-        $this->possede = $possede;
 
         return $this;
     }
@@ -61,23 +46,26 @@ class Equipement
     /**
      * @return Collection<int, Vehicule>
      */
-    public function getVehiculeId(): Collection
+    public function getVehicules(): Collection
     {
-        return $this->vehiculeId;
+        return $this->vehicules;
     }
 
-    public function addVehiculeId(Vehicule $vehiculeId): static
+    public function addVehicule(Vehicule $vehicule): static
     {
-        if (!$this->vehiculeId->contains($vehiculeId)) {
-            $this->vehiculeId->add($vehiculeId);
+        if (!$this->vehicules->contains($vehicule)) {
+            $this->vehicules->add($vehicule);
+            $vehicule->addEquipement($this);
         }
 
         return $this;
     }
 
-    public function removeVehiculeId(Vehicule $vehiculeId): static
+    public function removeVehicule(Vehicule $vehicule): static
     {
-        $this->vehiculeId->removeElement($vehiculeId);
+        if ($this->vehicules->removeElement($vehicule)) {
+            $vehicule->removeEquipement($this);
+        }
 
         return $this;
     }

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Equipements{% endblock %}
+
+{% block body %}
+
+
+    <div class="container mt-3">
+        <h1>Liste des équipements</h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Nom</th>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th class="text-center">Actions</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td class="text-center">{{ equipement.nom | upper }}</td>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="text-center">
+                            <a href="{{ path('app_admin_equipement_modifier',{id:equipement.id}) }}"><input class="btn btn-info" type="button" value="Modifier"></a>
+                            <a href="{{ path('app_admin_equipement_suppression',{id:equipement.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer" onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
+                        </td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container mt-3">
+        <a href="{{ path('app_admin_equipement_ajout') }}"><input type="button" value="AJOUTER" class="btn btn-primary"></a>
+    </div>
+{% endblock %}
