@@ -27,34 +27,18 @@ class VehiculeController extends AbstractController
     }
 
     #[Route('/admin/vehicule/ajout', name: 'app_admin_vehicule_ajout')]
-    public function ajout(EntityManagerInterface $entityManager,Request $request): Response
+    public function ajout(EntityManagerInterface $entityManager,Request $request,ImageService $imageService): Response
     {
         $vehicule= new Vehicule();
         $form = $this->createForm(VehiculeType::class,$vehicule);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $vehicule = $form->getData();
 
             $imageFile = $form->get('image')->getData();
-
-            // Vérifier si un fichier a été téléchargé
-            if ($imageFile) {
-                // Générer un nom de fichier unique
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
-
-                // Déplacer le fichier téléchargé vers le répertoire souhaité
-                try {
-                    $imageFile->move(
-                        $this->getParameter('uploads_directory'), // Répertoire de destination (défini dans services.yaml)
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Gérer l'exception si le déplacement échoue
-                    // ...
-                }
-
-                // Mettre à jour le nom du fichier dans l'entité Vehicle
-                $vehicule->setImage($newFilename);
+            if ($imageFile){
+                $folder='vehicule';
+                $fichier = $imageService->upload($imageFile, $folder, 300, 300);
+                $vehicule->setImage($fichier);
             }
 
             $entityManager->persist($vehicule);

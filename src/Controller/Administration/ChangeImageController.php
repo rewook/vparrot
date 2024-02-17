@@ -4,6 +4,7 @@ namespace App\Controller\Administration;
 
 use App\Entity\Vehicule;
 use App\Form\ChangeImageType;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Image;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ChangeImageController extends AbstractController
 {
     #[Route('admin/change/image/{id}', name: 'app_admin_change_image')]
-    public function index($id,EntityManagerInterface $entityManager,Request $request): Response
+    public function index($id,EntityManagerInterface $entityManager,Request $request,ImageService $imageService): Response
     {
 
 
@@ -35,23 +36,12 @@ class ChangeImageController extends AbstractController
 
             // Vérifier si un fichier a été téléchargé
             if ($imageFile) {
-                // Générer un nom de fichier unique
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                $folder='vehicule';
+                $fichier = $imageService->upload($imageFile, $folder, 200, 200);
 
-
-                // Déplacer le fichier téléchargé vers le répertoire souhaité
-                try {
-                    $imageFile->move(
-                        $this->getParameter('uploads_directory'), // Répertoire de destination (défini dans services.yaml)
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Gérer l'exception si le déplacement échoue
-                    // ...
-                }
 
                 // Mettre à jour le nom du fichier dans l'entité Vehicle
-                $vehicule->setImage($newFilename);
+                $vehicule->setImage($fichier);
 
                 $entityManager->persist($vehicule);
                 $entityManager->flush();
