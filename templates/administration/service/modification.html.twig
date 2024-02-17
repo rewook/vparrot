@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification service{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <h1>Modification d'un service</h1>
+        {{ form_start(form) }}
+
+        {% if service.image %}
+            <img class="align-content-center" src="{{ asset('./uploads/service/mini/' ~ service.image) }}" alt="Image du service">
+            <a href="{{ path('app_admin_change_image',{id: service.id, type: 'service'}) }}"><input type="button" class="btn btn-info" value="Changer l'image" /></a>
+        {% endif %}
+
+
+        {{ form_row(form.nom) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.submit) }}
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

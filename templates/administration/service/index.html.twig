@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Services{% endblock %}
+
+{% block body %}
+
+
+    <div class="container mt-3">
+        <h1>Liste des services</h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Description</th>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th class="text-center">Actions</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for service in services %}
+                <tr>
+                    <td class="text-center">{{ service.nom | upper }}</td>
+                    <td class="text-center">{{ service.description }}</td>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="text-center">
+                            <a href="{{ path('app_admin_service_modification',{'id': service.id}) }}"><input class="btn btn-info" type="button" value="Modifier"></a>
+                            <a href="{{ path('app_admin_service_suppression',{id: service.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer" onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
+                        </td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container mt-3">
+        <a href="{{ path('app_admin_service_ajout') }}"><input type="button" value="AJOUTER" class="btn btn-primary"></a>
+    </div>
+{% endblock %}

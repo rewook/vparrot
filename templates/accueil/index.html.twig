@@ -4,15 +4,25 @@
 
 {% block body %}
 
+<h1>Nos services</h1>
 
-{#<div class="bg-warning">#}
-{#    <h1 >Accueil</h1>#}
+    <div class="container">
+        <div class="row">
+            {% for service in services %}
 
-{#    <input type="button" class="btn btn-primary" value="ENREGISTRER"  />#}
+                <div class="card border-0 col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                    <img src="{{ asset('./uploads/service/mini/' ~ service.image) }}" class="card-img-top" alt="image du service">
+                    <div class="card-body mt-3">
+                        <h5 class="card-title mt-3">{{ service.nom }}</h5>
+                        <p class="card-text mt-5">{{ service.description}}</p>
+                    </div>
+                </div>
 
-{#    <a class="bg-info" href="#">ICI PARIS</a>#}
+                {% if loop.index % 3 == 0 or loop.last %}
 
+                {% endif %}
 
-
-{#</div>#}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Administration;
 
+use App\Entity\Service;
 use App\Entity\Vehicule;
 use App\Form\ChangeImageType;
 use App\Service\ImageService;
@@ -13,16 +14,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use function Symfony\Component\String\b;
 
 class ChangeImageController extends AbstractController
 {
-    #[Route('admin/change/image/{id}', name: 'app_admin_change_image')]
-    public function index($id,EntityManagerInterface $entityManager,Request $request,ImageService $imageService): Response
+    #[Route('admin/change/image/{id}/{type}', name: 'app_admin_change_image')]
+    public function index($id,$type,EntityManagerInterface $entityManager,Request $request,ImageService $imageService): Response
     {
 
 
+        switch ($type) {
+            case 'vehicule':
+                $vehicule = $entityManager->getRepository(Vehicule::class)->find($id);
+                break;
+            case 'service':
+                $service = $entityManager->getRepository(Service::class)->find($id);
+                break;
+        }
 
-        $vehicule = $entityManager->getRepository(Vehicule::class)->find($id);
 
         $form = $this->createForm(ChangeImageType::class);
 
@@ -36,19 +45,40 @@ class ChangeImageController extends AbstractController
 
             // Vérifier si un fichier a été téléchargé
             if ($imageFile) {
-                $folder='vehicule';
+                switch ($type){
+                    case 'vehicule':
+                        $folder='vehicule';
+                        break;
+                    case 'service':
+                        $folder='service';
+                        break;
+                }
+
                 $fichier = $imageService->upload($imageFile, $folder, 200, 200);
 
 
-                // Mettre à jour le nom du fichier dans l'entité Vehicle
-                $vehicule->setImage($fichier);
+                // Mettre à jour le nom du fichier dans l'entité
+                switch ($type){
+                    case 'vehicule':
+                        $vehicule->setImage($fichier);
 
-                $entityManager->persist($vehicule);
-                $entityManager->flush();
+                        $entityManager->persist($vehicule);
+                        $entityManager->flush();
 
-                $this->addFlash('success','Image modifiée avec succés');
+                        $this->addFlash('success','Image modifiée avec succés');
 
-                return $this->redirectToRoute('app_admin_vehicule_modification',['id'=>$vehicule->getId()]);
+                        return $this->redirectToRoute('app_admin_vehicule_modification',['id'=>$vehicule->getId()]);
+                        break;
+                    case 'service':
+                        $service->setImage($fichier);
+
+                        $entityManager->persist($service);
+                        $entityManager->flush();
+
+                        $this->addFlash('success','Image modifiée avec succés');
+                        return $this->redirectToRoute('app_admin_service_modification',['id'=>$service->getId()]);
+                }
+
             }
         }
 
@@ -56,4 +86,6 @@ class ChangeImageController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 }
