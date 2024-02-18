@@ -12,31 +12,43 @@ use App\Entity\Vehicule;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use function Symfony\Component\Clock\now;
 
 class AppFixtures extends Fixture
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+        $plaintextPassword= '12$Stl54';
+
+
 
         //admin de la plateforme
         $admin = new Utilisateur();
+        $hashedPassword = $this->passwordHasher->hashPassword($admin,$plaintextPassword);
         $admin->setNom('Parrot')
             ->setPrenom('Vincent')
             ->setEmail('admin@test.com')
-            ->setPassword('12$Stl54')
+            ->setPassword($hashedPassword)
             ->setRoles(["ROLE_ADMIN"]);
 
         $manager->persist($admin);
 
         //employé
         $employe = new Utilisateur();
+        $hashedPassword2 = $this->passwordHasher->hashPassword($employe,$plaintextPassword);
         $employe->setNom('Doe')
             ->setPrenom('John')
             ->setEmail('j.doe@test.com')
-            ->setRoles('[ROLE_USER')
-            ->setPassword('12$Stl54');
+            ->setRoles(["ROLE_EMPLOYE"])
+            ->setPassword($hashedPassword2);
 
         $manager->persist($employe);
 
@@ -45,7 +57,7 @@ class AppFixtures extends Fixture
             $service = new Service();
             $imageNom = $faker->word . '.jpg';
             $service->setNom($faker->company)
-                ->setDescription($faker->sentence(20, true))
+                ->setDescription($faker->sentence(12, true))
                 ->setImage('/uploads/service/mini/' . $imageNom);
             $manager->persist($service);
         }
@@ -54,8 +66,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 6; $i++) {
             $commentaire = new Commentaire();
             $commentaire->setNom($faker->userName)
-                ->setCommentaire($faker->sentence(15, true))
-                ->setCreation($faker->date('d-m-Y', max: now()))
+                ->setCommentaire($faker->sentence(12, true))
+                ->setCreation($faker->dateTime('d-m-Y'))
                 ->setEstHumain(1)
                 ->setEstModere(rand(0, 1))
                 ->setNote(random_int(1, 5));
@@ -90,52 +102,52 @@ class AppFixtures extends Fixture
         //création des heures d'ouverture
         $ouverture1 = new Ouverture();
         $ouverture1->setJour('LUNDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time('14:00:00'))
-            ->setHfapresmidi(time('18:00:00'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture1);
         $ouverture2 = new Ouverture();
         $ouverture2->setJour('MARDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time('14:00:00'))
-            ->setHfapresmidi(time('18:00:00'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture2);
         $ouverture3 = new Ouverture();
         $ouverture3->setJour('MERCREDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time('14:00:00'))
-            ->setHfapresmidi(time('18:00:00'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture3);
         $ouverture4 = new Ouverture();
         $ouverture4->setJour('JEUDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time('14:00:00'))
-            ->setHfapresmidi(time('18:00:00'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture4);
         $ouverture5 = new Ouverture();
         $ouverture5->setJour('VENDREDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time('14:00:00'))
-            ->setHfapresmidi(time('18:00:00'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture5);
         $ouverture6 = new Ouverture();
         $ouverture6->setJour('SAMEDI')
-            ->setHdmatin(time('08:45:00'))
-            ->setHfmatin(time('12:00:00'))
-            ->setHdapresmidi(time(null))
-            ->setHfapresmidi(time(null));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture6);
         $ouverture7 = new Ouverture();
         $ouverture7->setJour('DIMANCHE')
-            ->setHdmatin(time('null'))
-            ->setHfmatin(time('null'))
-            ->setHdapresmidi(time('null'))
-            ->setHfapresmidi(time('null'));
+            ->setHdmatin(null)
+            ->setHfmatin(null)
+            ->setHdapresmidi(null)
+            ->setHfapresmidi(null);
         $manager->persist($ouverture7);
 
         //création des équipements
