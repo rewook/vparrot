@@ -47,8 +47,6 @@ $(document).ready( function() {
     $( "#annee_mec" ).val( $( "#slider-annee_mec" ).slider( "values", 0 ) +
         " - " + $( "#slider-annee_mec" ).slider( "values", 1 ) );
 
-
-
     $( "#slider-range, #slider-kilometre, #slider-annee_mec" ).on("slidechange",function (event,ui){
             var prixMin = $("#slider-range").slider("values", 0);
             var prixMax = $("#slider-range").slider("values", 1);
