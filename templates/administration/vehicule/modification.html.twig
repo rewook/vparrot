@@ -13,7 +13,7 @@
 
         {% if vehicule.image %}
             <img class="align-content-center" src="{{ asset('./uploads/vehicule/mini/' ~ vehicule.image) }}" alt="Image du véhicule">
-            <a href="{{ path('app_admin_change_image',{id: vehicule.id}) }}"><input type="button" class="btn btn-info" value="Changer l'image" /></a>
+            <a href="{{ path('app_admin_change_image',{id: vehicule.id, type: 'vehicule'}) }}"><input type="button" class="btn btn-info" value="Changer l'image" /></a>
         {% endif %}
 
 

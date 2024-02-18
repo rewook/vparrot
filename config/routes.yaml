@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+filtre_prix:
+    path: /filtreprix
+    controller: App\Controller\FiltreController::filtrerVehiculesParPrix
+    methods: [POST]

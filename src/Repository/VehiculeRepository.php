@@ -21,6 +21,59 @@ class VehiculeRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicule::class);
     }
 
+    public function findVehiculesByPriceRange($prixMin,$prixMax)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.prix BETWEEN :minPrice AND :maxPrice')
+            ->setParameter('minPrice', $prixMin)
+            ->setParameter('maxPrice', $prixMax)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findVehiculesByKilometreRange($kilometreMin,$kilometreMax)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.kilometrage BETWEEN :minPrice AND :maxPrice')
+            ->setParameter('minPrice', $kilometreMin)
+            ->setParameter('maxPrice', $kilometreMax)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findVehiculesByAnneeRange($anneeMin,$anneeMax)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.annee BETWEEN :minPrice AND :maxPrice')
+            ->setParameter('minPrice', $anneeMin)
+            ->setParameter('maxPrice', $anneeMax)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findVehicules($prixMin,$prixMax,$kilometreMin,$kilometreMax,$anneeMin,$anneeMax)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.prix BETWEEN :minPrice AND :maxPrice')
+            ->andWhere('v.kilometrage BETWEEN :minKilometre AND :maxKilometre')
+            ->andWhere('v.annee BETWEEN :minAnnee AND :maxAnnee')
+            ->setParameter('minPrice', $prixMin)
+            ->setParameter('maxPrice', $prixMax)
+            ->setParameter('minKilometre', $kilometreMin)
+            ->setParameter('maxKilometre', $kilometreMax)
+            ->setParameter('minAnnee', $anneeMin)
+            ->setParameter('maxAnnee', $anneeMax)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
+
+
+
+
 //    /**
 //     * @return Vehicule[] Returns an array of Vehicule objects
 //     */
