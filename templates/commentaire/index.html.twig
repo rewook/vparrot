@@ -6,12 +6,12 @@
 
     <h1>Vos commentaires</h1>
 
-    <div class="container mt-5">
+    <div class="container">
     {% if commentaires %}
         <div class="row">
             {% for commentaire in commentaires %}
 
-                <div class="card col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                <div class="card border-0 col-md-4 col-sm-1 col-xs-1">
 
                     <div class="card-body mt-3">
 
@@ -37,10 +37,12 @@
 
             {% endfor %}
             {% endif %}
+            <div class="mt-5">
+                <a href="{{ path('app_commentaire_ajout') }}"><input type="button" class="btn btn-primary mt-5" value="Laissez nous un commentaire !"></a>
+            </div>
         </div>
 
 
-        <a href="{{ path('app_commentaire_ajout') }}"><input type="button" class="btn btn-primary mt-5" value="Laissez nous un commentaire !"></a>
     </div>
 
 

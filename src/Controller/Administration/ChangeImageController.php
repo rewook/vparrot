@@ -54,7 +54,7 @@ class ChangeImageController extends AbstractController
                         break;
                 }
 
-                $fichier = $imageService->upload($imageFile, $folder, 200, 200);
+                $fichier = $imageService->upload($imageFile, $folder, 150, 150);
 
 
                 // Mettre à jour le nom du fichier dans l'entité

@@ -36,7 +36,7 @@ class ServiceController extends AbstractController
             $imageFile = $form->get('image')->getData();
             if ($imageFile){
                 $folder='service';
-                $fichier = $imageService->upload($imageFile, $folder, 250, 250);
+                $fichier = $imageService->upload($imageFile, $folder, 150, 150);
                 $service->setImage($fichier);
             }
             $entityManager->persist($service);

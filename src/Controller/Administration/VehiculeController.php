@@ -37,7 +37,7 @@ class VehiculeController extends AbstractController
             $imageFile = $form->get('image')->getData();
             if ($imageFile){
                 $folder='vehicule';
-                $fichier = $imageService->upload($imageFile, $folder, 300, 300);
+                $fichier = $imageService->upload($imageFile, $folder, 150, 150);
                 $vehicule->setImage($fichier);
             }
 

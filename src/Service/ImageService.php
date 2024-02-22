@@ -15,7 +15,7 @@ class ImageService
         $this->params = $params;
     }
 
-    public function upload(UploadedFile $picture, ?string $folder = '', ?int $width = 250, ?int $height = 250)
+    public function upload(UploadedFile $picture, ?string $folder = '', ?int $width = 150, ?int $height = 150)
     {
         // On donne un nouveau nom à l'image
         $fichier = md5(uniqid(rand(), true)) . '.webp';
