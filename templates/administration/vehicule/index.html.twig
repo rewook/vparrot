@@ -33,8 +33,11 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <td class="text-center">
-                            <a href="{{ path('app_admin_vehicule_modification',{id: vehicule.id,type: 'vehicule'}) }}"><input class="btn btn-info" type="button" value="Modifier"></a>
-                            <a href="{{ path('app_admin_vehicule_suppression',{id: vehicule.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer" onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
+                            <a href="{{ path('app_admin_vehicule_modification',{id: vehicule.id,type: 'vehicule'}) }}"><input
+                                        class="btn btn-info mb-2" type="button" value="Modifier"></a>
+                            <a href="{{ path('app_admin_vehicule_suppression',{id: vehicule.id}) }}"><input
+                                        type="button" class="btn btn-danger" value="Supprimer"
+                                        onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
                         </td>
                     {% endif %}
 
@@ -45,7 +48,8 @@
 
     </div>
     <div class="container mt-3">
-        <a href="{{ path('app_admin_vehicule_ajout') }}"><input type="button" value="AJOUTER" class="btn btn-primary"></a>
+        <a href="{{ path('app_admin_vehicule_ajout') }}"><input type="button" value="AJOUTER"
+                                                                class="btn btn-primary"></a>
     </div>
 {% endblock %}
 

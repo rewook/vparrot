@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Service\Horaires;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'app_contact')]
-    public function index(Request $request,EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, Horaires $horaires): Response
     {
+        $horairesOuvertures = $horaires->getHoraires();
         $contact = new Contact();
-        $form = $this->createForm(ContactType::class,$contact);
+        $form = $this->createForm(ContactType::class, $contact);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -27,7 +29,7 @@ class ContactController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            $this->addFlash('success','Votre formulaire a été soumis avec succès');
+            $this->addFlash('success', 'Votre formulaire a été soumis avec succès');
 
             return $this->redirectToRoute('app_accueil');
 
@@ -35,11 +37,12 @@ class ContactController extends AbstractController
 
         return $this->render('contact/index.html.twig', [
             'form' => $form->createView(),
+            'horairesOuvertures' => $horairesOuvertures
         ]);
     }
 
     #[Route('/admin/contact/{id}', name: 'app_admin_contact_rappele')]
-    public function rappelle($id,EntityManagerInterface $entityManager): Response
+    public function rappelle($id, EntityManagerInterface $entityManager): Response
     {
         $contact = $entityManager->getRepository(Contact::class)->find($id);
 
@@ -47,7 +50,7 @@ class ContactController extends AbstractController
         $entityManager->persist($contact);
         $entityManager->flush();
 
-        $this->addFlash("success","Le contact a été rappelé");
+        $this->addFlash("success", "Le contact a été rappelé");
 
         return $this->redirectToRoute('app_administration');
 

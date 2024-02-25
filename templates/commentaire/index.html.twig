@@ -4,47 +4,49 @@
 
 {% block body %}
 
-    <h1>Vos commentaires</h1>
+    <h1 class="text-center">Vos commentaires</h1>
 
-    <div class="container">
     {% if commentaires %}
-        <div class="row">
-            {% for commentaire in commentaires %}
+        <div class="col-12 mt-3 mb-5">
+            <div class="row row-cols-1 row-cols-md-3 g-4"><!-- Cartes dans une rangée de 3 sur les écrans de bureau -->
+                {% for commentaire in commentaires %}
+                    <div class="col-12 col-md-4">
+                        <div class="card mx-3 h-100 d-flex align-items-center">
+                            <div class="card">
 
-                <div class="card border-0 col-md-4 col-sm-1 col-xs-1">
+                                <div class="card mx-3 h-100 border-0">
 
-                    <div class="card-body mt-3">
-
-
-                        <h5 class="card-title mt-3">De : {{ commentaire.nom | upper }}, en date du {{ commentaire.creation |date("d/m/Y") }}</h5>
-
-                        <p class="card-text mt-5">{{ commentaire.commentaire}}</p>
-                        {% set note = commentaire.note %}
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">De : {{ commentaire.nom | upper }}, en date
+                                            du {{ commentaire.creation |date("d/m/Y") }}</h5>
+                                        <p class="card-text">{{ commentaire.commentaire }}</p>
+                                        {% set note = commentaire.note %}
 
 
-                        <div class="rating">
-                            {% for i in 1..5 %}
-                                {% set starImage = (note >= i ? "images/star-filled.png" : "images/star-empty.png") %}
-                                <img src="{{ starImage }}" alt="étoile remplie">
-                            {% endfor %}
+                                        <div class="rating">
+                                            {% for i in 1..5 %}
+                                                {% set starImage = (note >= i ? "images/star-filled.png" : "images/star-empty.png") %}
+                                                <img src="{{ starImage }}" alt="étoile remplie">
+                                            {% endfor %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                {% if loop.index % 3 == 0 or loop.last %}
-
-                {% endif %}
-
-            {% endfor %}
-            {% endif %}
+                {% endfor %}
+            </div>
             <div class="mt-5">
-                <a href="{{ path('app_commentaire_ajout') }}"><input type="button" class="btn btn-primary mt-5" value="Laissez nous un commentaire !"></a>
+                <a href="{{ path('app_commentaire_ajout') }}"><input type="button" class="btn btn-primary mt-5"
+                                                                     value="Laissez nous un commentaire !"></a>
             </div>
         </div>
 
-
-    </div>
-
-
-
+    {% endif %}
 {% endblock %}
+
+
+
+
+

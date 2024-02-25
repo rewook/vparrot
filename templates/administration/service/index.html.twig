@@ -27,8 +27,12 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <td class="text-center">
-                            <a href="{{ path('app_admin_service_modification',{'id': service.id}) }}"><input class="btn btn-info" type="button" value="Modifier"></a>
-                            <a href="{{ path('app_admin_service_suppression',{id: service.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer" onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
+                            <a href="{{ path('app_admin_service_modification',{'id': service.id}) }}"><input
+                                        class="btn btn-info mb-2" type="button" value="Modifier"></a>
+                            <a href="{{ path('app_admin_service_suppression',{id: service.id}) }}"><input type="button"
+                                                                                                          class="btn btn-danger"
+                                                                                                          value="Supprimer"
+                                                                                                          onclick="return confirm('Etes-vous sûr de vouloir supprimer cet équipement ?')"></a>
                         </td>
                     {% endif %}
 
@@ -38,7 +42,8 @@
         </table>
 
     </div>
-    <div class="container mt-3">
-        <a href="{{ path('app_admin_service_ajout') }}"><input type="button" value="AJOUTER" class="btn btn-primary"></a>
+    <div class="container mt-3 mb-2">
+        <a href="{{ path('app_admin_service_ajout') }}"><input type="button" value="AJOUTER"
+                                                               class="btn btn-primary"></a>
     </div>
 {% endblock %}

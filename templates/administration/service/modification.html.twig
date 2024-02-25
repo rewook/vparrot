@@ -10,8 +10,11 @@
         {{ form_start(form) }}
 
         {% if service.image %}
-            <img class="align-content-center" src="{{ asset('./uploads/service/mini/' ~ service.image) }}" alt="Image du service">
-            <a href="{{ path('app_admin_change_image',{id: service.id, type: 'service'}) }}"><input type="button" class="btn btn-info" value="Changer l'image" /></a>
+            <img class="align-content-center" src="{{ asset('./uploads/service/mini/' ~ service.image) }}"
+                 alt="Image du service">
+            <a href="{{ path('app_admin_change_image',{id: service.id, type: 'service'}) }}"><input type="button"
+                                                                                                    class="btn btn-info"
+                                                                                                    value="Changer l'image"/></a>
         {% endif %}
 
 

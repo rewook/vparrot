@@ -5,54 +5,54 @@
 {% block body %}
 
 
-<div class="container">
-    <h1>Liste des personnes à recontacter</h1>
+    <div class="container">
+        <h1 class="text-center">Liste des personnes à recontacter</h1>
 
 
-
-    {% if contacts %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th class="text-center">Nom</th>
-            <th class="text-center">Prénom</th>
-            <th class="text-center">Email</th>
-            <th class="text-center">Téléphone</th>
-            <th class="text-center">Message</th>
-            {% if is_granted('ROLE_USER') %}
-                <th class="text-center">Actions</th>
-            {% endif %}
-        </tr>
-        </thead>
-        <tbody>
-
-            {% for contact in contacts %}
+        {% if contacts %}
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td class="text-center">{{ contact.nom | upper }}</td>
-                    <td class="text-center">{{ contact.prenom | capitalize }}</td>
-                    <td class="text-center">{{ contact.email }}</td>
-                    <td class="text-center">{{ contact.telephone }}</td>
-                    <td class="text-center">{{ contact.message }}</td>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <td class="text-center">
-                            <a href="{{ path('app_admin_contact_rappele',{id: contact.id}) }}"><input class="btn btn-info" type="button" value="Contacté" onclick="return confirm('Etes-vous sûr de vouloir marquer rappelé ce message ?')"></a>
-                        </td>
+                    <th class="text-center">Nom</th>
+                    <th class="text-center">Prénom</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Téléphone</th>
+                    <th class="text-center">Message</th>
+                    {% if is_granted('ROLE_USER') %}
+                        <th class="text-center">Actions</th>
                     {% endif %}
-
                 </tr>
-            {% endfor %}
+                </thead>
+                <tbody>
+
+                {% for contact in contacts %}
+                    <tr>
+                        <td class="text-center">{{ contact.nom | upper }}</td>
+                        <td class="text-center">{{ contact.prenom | capitalize }}</td>
+                        <td class="text-center">{{ contact.email }}</td>
+                        <td class="text-center">{{ contact.telephone }}</td>
+                        <td class="text-center">{{ contact.message }}</td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td class="text-center">
+                                <a href="{{ path('app_admin_contact_rappele',{id: contact.id}) }}"><input
+                                            class="btn btn-info" type="button" value="Contacté"
+                                            onclick="return confirm('Etes-vous sûr de vouloir marquer rappelé ce message ?')"></a>
+                            </td>
+                        {% endif %}
+
+                    </tr>
+                {% endfor %}
 
 
-
-        </tbody>
-    </table>
-    {% else %}
-
-
-        <h4 class="text-center mt-5">Aucun enregistrement</h4>
-
-    {% endif %}
+                </tbody>
+            </table>
+        {% else %}
 
 
-</div>
+            <h4 class="text-center mt-5">Aucun enregistrement</h4>
+
+        {% endif %}
+
+
+    </div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller\Administration;
 use App\Entity\Service;
 use App\Entity\Vehicule;
 use App\Form\ChangeImageType;
+use App\Service\Horaires;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -19,9 +20,9 @@ use function Symfony\Component\String\b;
 class ChangeImageController extends AbstractController
 {
     #[Route('admin/change/image/{id}/{type}', name: 'app_admin_change_image')]
-    public function index($id,$type,EntityManagerInterface $entityManager,Request $request,ImageService $imageService): Response
+    public function index($id, $type, EntityManagerInterface $entityManager, Request $request, ImageService $imageService, Horaires $horaires): Response
     {
-
+        $horairesOuvertures = $horaires->getHoraires();
 
         switch ($type) {
             case 'vehicule':
@@ -38,19 +39,18 @@ class ChangeImageController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager= new ImageManager(Driver::class);
+            $manager = new ImageManager(Driver::class);
             $imageFile = $form->get('image')->getData();
-
 
 
             // Vérifier si un fichier a été téléchargé
             if ($imageFile) {
-                switch ($type){
+                switch ($type) {
                     case 'vehicule':
-                        $folder='vehicule';
+                        $folder = 'vehicule';
                         break;
                     case 'service':
-                        $folder='service';
+                        $folder = 'service';
                         break;
                 }
 
@@ -58,16 +58,16 @@ class ChangeImageController extends AbstractController
 
 
                 // Mettre à jour le nom du fichier dans l'entité
-                switch ($type){
+                switch ($type) {
                     case 'vehicule':
                         $vehicule->setImage($fichier);
 
                         $entityManager->persist($vehicule);
                         $entityManager->flush();
 
-                        $this->addFlash('success','Image modifiée avec succés');
+                        $this->addFlash('success', 'Image modifiée avec succés');
 
-                        return $this->redirectToRoute('app_admin_vehicule_modification',['id'=>$vehicule->getId()]);
+                        return $this->redirectToRoute('app_admin_vehicule_modification', ['id' => $vehicule->getId()]);
                         break;
                     case 'service':
                         $service->setImage($fichier);
@@ -75,8 +75,8 @@ class ChangeImageController extends AbstractController
                         $entityManager->persist($service);
                         $entityManager->flush();
 
-                        $this->addFlash('success','Image modifiée avec succés');
-                        return $this->redirectToRoute('app_admin_service_modification',['id'=>$service->getId()]);
+                        $this->addFlash('success', 'Image modifiée avec succés');
+                        return $this->redirectToRoute('app_admin_service_modification', ['id' => $service->getId()]);
                 }
 
             }
@@ -84,6 +84,7 @@ class ChangeImageController extends AbstractController
 
         return $this->render('administration/change_image/index.html.twig', [
             'form' => $form->createView(),
+            'horairesOuvertures' => $horairesOuvertures
         ]);
     }
 

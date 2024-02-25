@@ -3,67 +3,67 @@
 {% block title %}Hello OccasionController!{% endblock %}
 
 {% block body %}
-    <h1>Nos occasions</h1>
-
-    <ul id="vehicule-list">
-{#        {% for occasion in occasions %}#}
-{#            <li data-price="{{ occasion.prix }}">{{ occasion.prix }}</li>#}
-{#        {% endfor %}#}
-    </ul>
+    <h1 class="text-center">Nos occasions</h1>
 
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <p>
-                    <label for="amount">Filtre Prix:</label>
-                    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="slider-range"></div>
-            </div>
-            <div class="col-md-4">
-                <p>
-                    <label for="kilometre">Filtre Kilomètre:</label>
-                    <input type="text" id="kilometre" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="slider-kilometre"></div>
-            </div>
-            <div class="col-md-4">
-                <p>
-                    <label for="annee_mec">Filtre Année:</label>
-                    <input type="text" id="annee_mec" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="slider-annee_mec"></div>
-            </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                <label for="amount">Filtre Prix:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="slider-range"></div>
         </div>
+        <div class="col-md-4">
+            <p>
+                <label for="kilometre">Filtre Kilomètre:</label>
+                <input type="text" id="kilometre" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="slider-kilometre"></div>
+        </div>
+        <div class="col-md-4">
+            <p>
+                <label for="annee_mec">Filtre Année:</label>
+                <input type="text" id="annee_mec" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="slider-annee_mec"></div>
+        </div>
+    </div>
 
 
-            <div class="card-container mt-5" id="datafiltered">
+    <div class="card-container mt-5" id="datafiltered">
 
+        <div class="col-12 mt-3 ">
+            <div class="row row-cols-1 row-cols-md-3 g-4"><!-- Cartes dans une rangée de 3 sur les écrans de bureau -->
+                {% for occasion in occasions %}
+                    <div class="col-12 col-md-4">
+                        <div class="card mx-3 h-100 d-flex align-items-center border-0">
+                            <div class="card">
 
-            <div class="row">
-
-            {% for occasion in occasions %}
-
-                <div class="card border-0 col-md-4 col-sm-4 col-lg-4 col-xs-4">
-                    <h5 class="card-title mt-3">{{ occasion.titre }}</h5>
-                    <img src="{{ asset('./uploads/vehicule/mini/' ~ occasion.image) }}" class="card-img-top" alt="image du service">
-                    <div class="card-body mt-1">
-                            <div class="row">
-                                <p class="card-text mt-2">Année: <b>{{ occasion.annee}}</b>, Kilométrage: <b>{{ occasion.kilometrage}} Km</b>, Tarif: <b>{{ occasion.prix}} €</b></p>
-                                <a href="#"><input type="button" class="btn btn-secondary" value="En savoir + ..."></a>
+                                <div class="card mx-3 h-100 border-0">
+                                    <img class="card-img-top img-fluid mx-auto"
+                                         style="max-height: 200px;max-width: 200px;align-content: center"
+                                         src="{{ asset('./uploads/vehicule/mini/' ~ occasion.image) }}"
+                                         alt="Card image cap">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ occasion.titre }}</h5>
+                                        <p class="card-text">Année: <b>{{ occasion.annee }}</b>, Kilométrage:
+                                            <b>{{ occasion.kilometrage }} Km</b>, Tarif: <b>{{ occasion.prix }} €</b>
+                                        </p>
+                                        <a href="#" class="btn btn-secondary mt-3 text-center">en savoir +</a>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                     </div>
-                </div>
-
-                {% if loop.index % 3 == 0 or loop.last %}
-
-                {% endif %}
-
-            {% endfor %}
-            </div>
+                {% endfor %}
             </div>
         </div>
+    </div>
+
+
+
 
 {% endblock %}

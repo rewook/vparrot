@@ -4,6 +4,7 @@ namespace App\Controller\Administration;
 
 use App\Entity\Utilisateur;
 use App\Form\AjoutEmployeType;
+use App\Service\Horaires;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,24 +24,26 @@ class EmployeController extends AbstractController
         }
         return $motDePasse;
     }
+
     #[Route('/admin/employe', name: 'app_admin_employe')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Horaires $horaires): Response
     {
         $employes = $entityManager->getRepository(Utilisateur::class)->findByRoles('ROLE_EMPLOYE');
-
+        $horairesOuvertures = $horaires->getHoraires();
 
 
         return $this->render('administration/employe/index.html.twig', [
             'employes' => $employes,
+            'horairesOuvertures' => $horairesOuvertures
         ]);
     }
 
     #[Route('/admin/employe/ajout', name: 'app_admin_employe_ajout')]
-    public function ajout(EntityManagerInterface $entityManager, Request $request,UserPasswordHasherInterface $passwordHasher): Response
+    public function ajout(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $passwordHasher, Horaires $horaires): Response
     {
         $employe = new Utilisateur();
-
-        $form = $this->createForm(AjoutEmployeType::class,$employe);
+        $horairesOuvertures = $horaires->getHoraires();
+        $form = $this->createForm(AjoutEmployeType::class, $employe);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +55,6 @@ class EmployeController extends AbstractController
             $plaintextPassword = $this->genererMotDePasseAleatoire();
 
 
-
             // Chiffrer le mot de passe
             $hashedPassword = $passwordHasher->hashPassword($employe, $plaintextPassword);
 
@@ -62,21 +64,23 @@ class EmployeController extends AbstractController
             $entityManager->persist($employe);
             $entityManager->flush();
 
-            $this->addFlash('success','Employé ajouté avec succès');
+            $this->addFlash('success', 'Employé ajouté avec succès');
 
             return $this->redirectToRoute('app_admin_employe');
         }
 
         return $this->render('administration/employe/ajout.html.twig', [
             'form' => $form->createView(),
+            'horairesOuvertures' => $horairesOuvertures
         ]);
     }
 
 
     #[Route('/admin/employe/edition/{id}', name: 'app_admin_employe_edition')]
-    public function edition($id,EntityManagerInterface $entityManager, Request $request): Response
+    public function edition($id, EntityManagerInterface $entityManager, Request $request, Horaires $horaires): Response
     {
         $employe = $entityManager->getRepository(Utilisateur::class)->find($id);
+        $horairesOuvertures = $horaires->getHoraires();
 
         $form = $this->createForm(AjoutEmployeType::class, $employe);
 
@@ -87,26 +91,28 @@ class EmployeController extends AbstractController
             $entityManager->persist($employe);
             $entityManager->flush();
 
-            $this->addFlash('success','Fiche employé modifiée avec succès');
+            $this->addFlash('success', 'Fiche employé modifiée avec succès');
 
             return $this->redirectToRoute('app_admin_employe');
 
         }
 
-        return $this->render('administration/employe/edition.html.twig',[
-            'form'=>$form
+        return $this->render('administration/employe/edition.html.twig', [
+            'form' => $form,
+            'horairesOuvertures' => $horairesOuvertures
         ]);
     }
 
     #[Route('/admin/employe/suppression/{id}', name: 'app_admin_employe_suppression')]
-    public function suppression($id,EntityManagerInterface $entityManager, Request $request): Response
+    public function suppression($id, EntityManagerInterface $entityManager, Request $request, Horaires $horaires): Response
     {
         $employe = $entityManager->getRepository(Utilisateur::class)->find($id);
+        $horairesOuvertures = $horaires->getHoraires();
 
         $entityManager->remove($employe);
         $entityManager->flush();
 
-        $this->addFlash('success','Fiche employé supprimée avec succès');
+        $this->addFlash('success', 'Fiche employé supprimée avec succès');
 
         return $this->redirectToRoute('app_admin_employe');
     }

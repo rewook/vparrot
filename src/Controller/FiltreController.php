@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FiltreController extends AbstractController
 {
-    #[Route('/filtreprix', name: 'filtre_prix',methods: 'POST')]
-    public function filtrerVehiculesParPrix(Request $request,VehiculeRepository $repository): Response
+    #[Route('/filtreprix', name: 'filtre_prix', methods: 'POST')]
+    public function filtrerVehiculesParPrix(Request $request, VehiculeRepository $repository): Response
     {
 
         if ($request->isXmlHttpRequest()) {
@@ -28,24 +28,24 @@ class FiltreController extends AbstractController
             $anneeMax = $request->request->get('maxAnnee');
 
 
-            $resultatsFiltres = $repository->findVehicules($prixMin,$prixMax,$kilometreMin,$kilometreMax,$anneeMin,$anneeMax);
+            $resultatsFiltres = $repository->findVehicules($prixMin, $prixMax, $kilometreMin, $kilometreMax, $anneeMin, $anneeMax);
 
 
-            $occasions=[];
-            foreach ($resultatsFiltres as $resultatsFiltre){
+            $occasions = [];
+            foreach ($resultatsFiltres as $resultatsFiltre) {
                 $occasions[] = [
                     'id' => $resultatsFiltre->getId(),
-                    'titre'=> $resultatsFiltre->getTitre(),
-                    'imageocc'=> '/uploads/vehicule/mini/'.$resultatsFiltre->getImage(),
+                    'titre' => $resultatsFiltre->getTitre(),
+                    'imageocc' => '/uploads/vehicule/mini/' . $resultatsFiltre->getImage(),
                     'prix' => $resultatsFiltre->getPrix(),
-                    'annee'=> $resultatsFiltre->getAnnee(),
+                    'annee' => $resultatsFiltre->getAnnee(),
                     'kilometrage' => $resultatsFiltre->getKilometrage()
                 ];
             }
 
             // (par exemple, en utilisant Doctrine pour interroger la base de données)
             // Retournez les résultats au format JSON
-            return new JsonResponse(['occasions'=>$occasions]);
+            return new JsonResponse(['occasions' => $occasions]);
 
         }
         throw new BadRequestHttpException('Requête incorrecte');

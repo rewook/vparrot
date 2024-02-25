@@ -1,8 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-start">
+            <h5>Horaires d'ouverture :</h5>
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                Contenu du footer
-            </div>
+            <p>Lundi : De {{ horairesOuvertures[0].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[0].hfmatin | date('H:i') }} -
+                De {{ horairesOuvertures[0].hdapresmidi | date('H:i') }}
+                à {{ horairesOuvertures[0].hfapresmidi | date('H:i') }} </p>
+            <p>Mardi : De {{ horairesOuvertures[1].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[1].hfmatin | date('H:i') }} -
+                De {{ horairesOuvertures[1].hdapresmidi | date('H:i') }}
+                à {{ horairesOuvertures[1].hfapresmidi | date('H:i') }}</p>
+            <p>Mercredi : De {{ horairesOuvertures[2].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[2].hfmatin | date('H:i') }} -
+                De {{ horairesOuvertures[2].hdapresmidi | date('H:i') }}
+                à {{ horairesOuvertures[2].hfapresmidi | date('H:i') }} </p>
+            <p>Jeudi : De {{ horairesOuvertures[3].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[3].hfmatin | date('H:i') }} -
+                De {{ horairesOuvertures[3].hdapresmidi | date('H:i') }}
+                à {{ horairesOuvertures[3].hfapresmidi | date('H:i') }}</p>
+            <p>Vendredi : De {{ horairesOuvertures[4].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[4].hfmatin | date('H:i') }} -
+                De {{ horairesOuvertures[4].hdapresmidi | date('H:i') }}
+                à {{ horairesOuvertures[4].hfapresmidi | date('H:i') }}</p>
+            <p>Samedi : De {{ horairesOuvertures[5].hdmatin | date('H:i') }}
+                à {{ horairesOuvertures[5].hfmatin | date('H:i') }}
+                - {% if horairesOuvertures[5].hdapresmidi is null %}FERMETURE{% else %} De {{ horairesOuvertures[5].hdapresmidi | date('H:i') }} à {{ horairesOuvertures[5].hfapresmidi | date('H:i') }}{% endif %}</p>
+            <p>Dimanche
+                : {% if horairesOuvertures[6].hdmatin is null %}FERMETURE {% else %}De {{ horairesOuvertures[6].hdmatin | date('H:i') }} à {{ horairesOuvertures[6].hfmatin | date('H:i') }} - De {{ horairesOuvertures[6].hdapresmidi | date('H:i') }} à {{ horairesOuvertures[6].hfapresmidi | date('H:i') }}{% endif %}</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <p>Copyright 2024</p>
         </div>
     </div>
+</div>
+

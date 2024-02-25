@@ -9,7 +9,6 @@
         <h1>Liste des commentaires à modérer</h1>
 
 
-
         {% if commentaires %}
             <table class="table table-striped">
                 <thead>
@@ -35,15 +34,18 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <td class="text-center">
                                 {% if commentaire.estModere == false %}
-                                <a href="{{ path('app_admin_commentaire_modere',{id: commentaire.id}) }}"><input class="btn btn-info" type="button" value="Modérer" onclick="return confirm('Etes-vous sûr de vouloir marquer modéré ce commentaire ?')"></a>
+                                    <a href="{{ path('app_admin_commentaire_modere',{id: commentaire.id}) }}"><input
+                                                class="btn btn-info mb-2" type="button" value="Modérer"
+                                                onclick="return confirm('Etes-vous sûr de vouloir marquer modéré ce commentaire ?')"></a>
                                 {% endif %}
-                                <a href="{{ path('app_admin_commentaire_supprimer',{id: commentaire.id}) }}"><input class="btn btn-danger" type="button" value="Supprimer" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce commentaire ?')"></a>
+                                <a href="{{ path('app_admin_commentaire_supprimer',{id: commentaire.id}) }}"><input
+                                            class="btn btn-danger" type="button" value="Supprimer"
+                                            onclick="return confirm('Etes-vous sûr de vouloir supprimer ce commentaire ?')"></a>
                             </td>
                         {% endif %}
 
                     </tr>
                 {% endfor %}
-
 
 
                 </tbody>
